@@ -13,18 +13,20 @@ def puzzle1():
             if first + second < 2020:
                 break
 
+
 def puzzle2():
     with open('day1.txt') as f:
         numbers = [int(x) for x in f.read().splitlines()]
         numbers.sort()
 
     for first in numbers:
-        for second in numbers:
-            for third in reversed(numbers):
-                if first + second + third == 2020:
-                    return first * second * third
-                if first + second + third < 2020:
-                    break
+        for second in reversed(numbers):
+            if first + second < 2020:
+                for third in numbers:
+                    if first + second + third == 2020:
+                        return first * second * third
+                    if first + second + third > 2020:
+                        break
 
 
 if __name__ == '__main__':
