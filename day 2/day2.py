@@ -5,13 +5,9 @@ def puzzle1():
     res = 0
     with open('day2.txt') as f:
         for line in f:
-            linesplit = line.split()
-            min = int(linesplit[0].split('-')[0])
-            max = int(linesplit[0].split('-')[1])
-            char = linesplit[1][0]
-            password = linesplit[2]
-            if min <= password.count(char) <= max:
-                res += 1
+            minmax, char, password = line.replace(':', ' ').split()
+            min, max = map(int, minmax.split("-"))
+            res += min <= password.count(char) <= max
     return res
 
 
@@ -19,15 +15,10 @@ def puzzle2():
     res = 0
     with open('day2.txt') as f:
         for line in f:
-            linesplit = line.split()
-            first = int(linesplit[0].split('-')[0]) - 1
-            second = int(linesplit[0].split('-')[1]) - 1
-            char = linesplit[1][0]
-            password = linesplit[2]
-            if password[first] == char and password[second] != char:
-                res += 1
-            if password[first] != char and password[second] == char:
-                res += 1
+            minmax, char, password = line.replace(':', ' ').split()
+            first, second = map(int, minmax.split("-"))
+            res += password[first - 1] == char and password[second - 1] != char
+            res += password[first - 1] != char and password[second - 1] == char
     return res
 
 
