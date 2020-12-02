@@ -17,8 +17,7 @@ def puzzle2():
         for line in f:
             minmax, char, password = line.replace(':', ' ').split()
             first, second = map(int, minmax.split("-"))
-            res += password[first - 1] == char and password[second - 1] != char
-            res += password[first - 1] != char and password[second - 1] == char
+            res += (password[first - 1] == char) ^ (password[second - 1] == char)
     return res
 
 
