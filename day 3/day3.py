@@ -1,5 +1,4 @@
 import time
-import math
 
 
 def puzzle1():
@@ -13,7 +12,6 @@ def puzzle1():
 
 def puzzle2():
     res = 5 * [0]
-    counter = 1
     with open('day3.txt') as f:
         f.__next__()
         for i, line in enumerate(f):
@@ -22,9 +20,8 @@ def puzzle2():
             res[2] += line[((i + 1) * 5) % (len(line.strip('\n')))] == '#'
             res[3] += line[((i + 1) * 7) % (len(line.strip('\n')))] == '#'
             if i % 2 == 1:
-                res[4] += line[(counter) % (len(line.strip('\n')))] == '#'
-                counter += 1
-    return math.prod(res)
+                res[4] += line[int((i + 1)/2) % (len(line.strip('\n')))] == '#'
+    return res[0] * res[1] * res[2] * res[3] * res[4]
 
 
 if __name__ == '__main__':
