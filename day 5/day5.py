@@ -11,19 +11,17 @@ def convertToNumber(string, upper):
 
 def puzzle1():
     res = 0
-    with open('day5.txt') as f:
-        for line in f:
-            seatId = convertToNumber(line[0:7], 'B') * 8 + convertToNumber(line[7:10], 'R')
-            res = max(res, seatId)
+    for line in open('day5.txt'):
+        seatId = convertToNumber(line[0:7], 'B') * 8 + convertToNumber(line[7:10], 'R')
+        res = max(res, seatId)
     return res
 
 
 def puzzle2():
     seatIds = set()
-    with open('day5.txt') as f:
-        for line in f:
-            seatId = convertToNumber(line[0:7], 'B') * 8 + convertToNumber(line[7:10], 'R')
-            seatIds.add(seatId)
+    for line in open('day5.txt'):
+        seatId = convertToNumber(line[0:7], 'B') * 8 + convertToNumber(line[7:10], 'R')
+        seatIds.add(seatId)
     for i in range(min(seatIds), max(seatIds)):
         if i not in seatIds:
             return i
