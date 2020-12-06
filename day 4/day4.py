@@ -14,8 +14,7 @@ values = {"hgt": lambda x: ("in" in x and 59 <= int(x.replace("in", "")) <= 76) 
 def puzzle1():
     res = 0
     with open('day4.txt') as f:
-        lines = f.read().split("\n\n")
-        for line in lines:
+        for line in f.read().split("\n\n"):
             passport = dict(field.split(':') for field in re.split('[\n ]', line))
             res += all(key in passport.keys() for key in values.keys())
     return res
@@ -24,8 +23,7 @@ def puzzle1():
 def puzzle2():
     res = 0
     with open('day4.txt') as f:
-        lines = f.read().split("\n\n")
-        for line in lines:
+        for line in f.read().split("\n\n"):
             passport = dict(field.split(':') for field in re.split('[\n ]', line))
             res += all(key in passport.keys() and values[key](passport[key]) for key in values.keys())
     return res
