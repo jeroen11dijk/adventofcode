@@ -2,20 +2,11 @@ import time
 
 
 def puzzle1():
-    res = 0
-    with open('day6.txt') as f:
-        for line in f.read().split("\n\n"):
-            res += len(set([letter for letter in line.replace('\n', '')]))
-    return res
+    return sum([len(set([letter for letter in line.replace('\n', '')])) for line in open('day6.txt').read().split("\n\n")])
 
 
 def puzzle2():
-    res = 0
-    with open('day6.txt') as f:
-        for line in f.read().split("\n\n"):
-            for question in line.split('\n')[0]:
-                res += all([question in line for line in line.split('\n')])
-    return res
+    return sum([sum([all([question in line for line in line.split('\n')]) for question in line.split('\n')[0]]) for line in open('day6.txt').read().split("\n\n")])
 
 
 if __name__ == '__main__':
