@@ -1,49 +1,34 @@
 import time
-from collections import deque
 
 
-def create_dictionary():
-    dictionary = {}
-    for line in open('day7.txt'):
-        key = line.split(' ')[0] + " " + line.split(' ')[1]
-        value = {}
-        if line.split(' ')[4] == "no":
-            dictionary[key] = {}
-        else:
-            for i in range(4, len(line.split(' ')), 4):
-                value[line.split(' ')[i + 1] + " " + line.split(' ')[i + 2]] = line.split(' ')[i]
-            dictionary[key] = value
-    return dictionary
-
-
-def tree_search(dictionary, key):
-    if "shiny gold" in dictionary[key]:
-        return 1
+dictionary = {}
+for line in open('day7.txt'):
+    key = line.split(' ')[0] + " " + line.split(' ')[1]
+    value = {}
+    if line.split(' ')[4] == "no":
+        dictionary[key] = {}
     else:
-        for child in dictionary[key].keys():
-            if tree_search(dictionary, child):
-                return 1
-    return 0
+        for i in range(4, len(line.split(' ')), 4):
+            value[line.split(' ')[i + 1] + " " + line.split(' ')[i + 2]] = line.split(' ')[i]
+        dictionary[key] = value
 
 
-def shiny_bag_search(dictionary, key):
+def tree_search(key):
+    return any(new_key == "shiny gold" or tree_search(new_key) for new_key in dictionary[key].keys())
+
+
+def shiny_bag_search(key):
     if not dictionary[key]:
         return 1
-    return sum([int(v)*shiny_bag_search(dictionary, k) for k, v in dictionary[key].items()]) + 1
+    return sum([int(v) * shiny_bag_search(k) for k, v in dictionary[key].items()]) + 1
+
 
 def puzzle1():
-    res = 0
-    dictionary = create_dictionary()
-    for key in dictionary.keys():
-        res += tree_search(dictionary, key)
-    return res
+    return sum(map(tree_search, dictionary.keys()))
 
 
 def puzzle2():
-    res = 0
-    for key in create_dictionary()["shiny gold"]:
-        res += int(create_dictionary()["shiny gold"][key]) * shiny_bag_search(create_dictionary(), key)
-    return res
+    return shiny_bag_search("shiny gold") - 1
 
 
 if __name__ == '__main__':
