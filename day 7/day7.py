@@ -31,11 +31,12 @@ def shiny_bag_search(dictionary, key):
         return 1
     return sum([int(v)*shiny_bag_search(dictionary, k) for k, v in dictionary[key].items()]) + 1
 
-
 def puzzle1():
     res = 0
-    for key in create_dictionary().keys():
-        res += tree_search(create_dictionary(), key)
+    dictionary = create_dictionary()
+    for key in dictionary.keys():
+        res += tree_search(dictionary, key)
+    return res
 
 
 def puzzle2():
