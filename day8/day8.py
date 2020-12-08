@@ -44,12 +44,11 @@ def puzzle1():
 def puzzle2():
     original_lines = open('day8.txt').read().split("\n")
     for i in range(0, len(original_lines)):
-        command, value = original_lines[i].split(' ')
         lines = original_lines[:]
-        if command == "jmp":
-            lines[i] = "nop " + value
-        if command == "nop":
-            lines[i] = "jmp " + value
+        if lines[i].startswith("jmp"):
+            lines[i] = lines[i].replace("jmp", "nop")
+        elif lines[i].startswith("nop"):
+            lines[i] = lines[i].replace("nop", "jmp")
         res = run_commands(lines)
         if res:
             return res
