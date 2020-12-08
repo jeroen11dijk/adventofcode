@@ -11,7 +11,7 @@ def run_commands(lines):
             return False
         if index > len(lines) - 1:
             return acc
-        command, value = lines[index].split(' ')
+        command, value = lines[index].split()
         executed.add(index)
         if command == "nop":
             index += 1
@@ -30,7 +30,7 @@ def puzzle1():
     while True:
         if index in executed:
             return acc
-        command, value = lines[index].split(' ')
+        command, value = lines[index].split()
         executed.add(index)
         if command == "nop":
             index += 1
@@ -45,20 +45,14 @@ def puzzle2():
     original_lines = open('day8.txt').read().split("\n")
     for i in range(0, len(original_lines)):
         command, value = original_lines[i].split(' ')
+        lines = original_lines[:]
         if command == "jmp":
-            lines = copy(original_lines)
             lines[i] = "nop " + value
-            res = run_commands(lines)
-            if res:
-                return res
         if command == "nop":
-            lines = copy(original_lines)
             lines[i] = "jmp " + value
-            res = run_commands(lines)
-            if res:
-                return res
-
-
+        res = run_commands(lines)
+        if res:
+            return res
 
 
 if __name__ == '__main__':
