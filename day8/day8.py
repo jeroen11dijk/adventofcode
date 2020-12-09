@@ -1,5 +1,4 @@
 import time
-from copy import copy
 
 
 def run_commands(lines):
