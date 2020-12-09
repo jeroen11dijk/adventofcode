@@ -1,8 +1,7 @@
-import itertools
 import time
 
 
-def subsetSum2(preamble, number):
+def valid(preamble, number):
     for first in preamble:
         for second in preamble:
             if first + second == number:
@@ -11,48 +10,29 @@ def subsetSum2(preamble, number):
 
 
 def puzzle1():
-    preamble = []
     allNumbers = [int(number) for number in open('day9.txt').read().split("\n")]
-    for i, number in enumerate(allNumbers):
-        if i < 25:
-            preamble.append(number)
+    preamble = allNumbers[0:25]
+    for i in range(25, len(allNumbers)):
+        number = allNumbers[i]
+        if valid(preamble, number):
+            preamble[i % 25] = number
         else:
-            if subsetSum2(preamble, number):
-                preamble[i % 25] = number
-            else:
-                return number
-
-
-def removeHigh(preamble, number):
-    res = []
-    for i in preamble:
-        if i < number:
-            res.append(i)
-    return res
+            return number
 
 
 def puzzle2():
-    preamble = []
     allNumbers = [int(number) for number in open('day9.txt').read().split("\n")]
-    for i, number in enumerate(allNumbers):
-        allNumbers.append(number)
-        if i < 25:
-            preamble.append(number)
-        else:
-            if subsetSum2(preamble, number):
-                preamble[i % 25] = number
-            else:
-                for startIndex in range(len(allNumbers)):
-                    res = allNumbers[startIndex]
-                    values = [allNumbers[startIndex]]
-                    for index in range(startIndex + 1, len(allNumbers)):
-                        res += allNumbers[index]
-                        values.append(allNumbers[index])
-                        if res == number:
-                            return min(values) + max(values)
-                        if res > number:
-                            break
-                return None
+    number = puzzle1()
+    for startIndex in range(len(allNumbers)):
+        res = allNumbers[startIndex]
+        values = [allNumbers[startIndex]]
+        for index in range(startIndex + 1, len(allNumbers)):
+            res += allNumbers[index]
+            values.append(allNumbers[index])
+            if res == number:
+                return min(values) + max(values)
+            if res > number:
+                break
 
 
 if __name__ == '__main__':
