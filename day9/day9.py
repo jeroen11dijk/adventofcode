@@ -23,16 +23,12 @@ def puzzle1():
 def puzzle2():
     allNumbers = [int(number) for number in open('day9.txt').read().split("\n")]
     number = puzzle1()
-    for startIndex in range(len(allNumbers)):
-        res = allNumbers[startIndex]
-        values = [allNumbers[startIndex]]
-        for index in range(startIndex + 1, len(allNumbers)):
-            res += allNumbers[index]
-            values.append(allNumbers[index])
-            if res == number:
-                return min(values) + max(values)
-            if res > number:
-                break
+    sequence_length = 2
+    while(True):
+        for i in range(len(allNumbers)):
+            if sum(allNumbers[i: i + sequence_length]) == number:
+                return min(allNumbers[i: i + sequence_length]) + max(allNumbers[i: i + sequence_length])
+        sequence_length += 1
 
 
 if __name__ == '__main__':
