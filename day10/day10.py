@@ -2,10 +2,8 @@ import time
 
 
 def puzzle1():
-    adapters = [int(number) for number in open('day10.txt').read().split("\n")]
-    adapters.append(0)
+    adapters = sorted([int(number) for number in open('day10.txt').read().split("\n")] + [0])
     adapters.append(max(adapters) + 3)
-    adapters.sort()
     jolt1 = 0
     jolt3 = 0
     for i in range(1, len(adapters)):
@@ -17,10 +15,8 @@ def puzzle1():
 
 
 def puzzle2():
-    adapters = [int(number) for number in open('day10.txt').read().split("\n")]
-    adapters.append(0)
+    adapters = sorted([int(number) for number in open('day10.txt').read().split("\n")] + [0])
     adapters.append(max(adapters) + 3)
-    adapters.sort()
     total = 1
     index = 0
     while True:
@@ -54,6 +50,16 @@ def puzzle2():
                 total *= 7
             index += 4
     return total
+
+
+def puzzle2Dynamic():
+    adapters = sorted([int(number) for number in open('day10.txt').read().split("\n")])
+    adapters.append(max(adapters) + 3)
+    results = [0] * (max(adapters) + 1)
+    results[0] = 1
+    for adapter in adapters:
+        results[adapter] = results[adapter - 1] + results[adapter - 2] + results[adapter - 3]
+    return results[-1]
 
 
 if __name__ == '__main__':
