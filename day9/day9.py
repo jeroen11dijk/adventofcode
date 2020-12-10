@@ -24,7 +24,7 @@ def puzzle2():
     allNumbers = [int(number) for number in open('day9.txt').read().split("\n")]
     number = puzzle1()
     sequence_length = 2
-    while(True):
+    while True:
         for i in range(len(allNumbers)):
             if sum(allNumbers[i: i + sequence_length]) == number:
                 return min(allNumbers[i: i + sequence_length]) + max(allNumbers[i: i + sequence_length])
