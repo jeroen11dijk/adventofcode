@@ -3,15 +3,7 @@ import time
 
 def puzzle1():
     adapters = sorted([int(number) for number in open('day10.txt').read().split("\n")] + [0])
-    adapters.append(max(adapters) + 3)
-    jolt1 = 0
-    jolt3 = 0
-    for i in range(1, len(adapters)):
-        if adapters[i] - adapters[i - 1] == 1:
-            jolt1 += 1
-        if adapters[i] - adapters[i - 1] == 3:
-            jolt3 += 1
-    return jolt1 * jolt3
+    return [x - y for y, x in zip(adapters, adapters[1:])].count(1) * ([x - y for y, x in zip(adapters, adapters[1:])].count(3) + 1)
 
 
 def puzzle2():
@@ -68,6 +60,6 @@ if __name__ == '__main__':
     end_puzzle1 = int(round(time.time() * 1000))
     print("Puzzle 1: " + str(res_puzzle1) + ". Took: " + str((end_puzzle1 - start_puzzle1)))
     start_puzzle2 = int(round(time.time() * 1000))
-    res_puzzle2 = puzzle2()
+    res_puzzle2 = puzzle2Dynamic()
     end_puzzle2 = int(round(time.time() * 1000))
     print("Puzzle 2: " + str(res_puzzle2) + ". Took: " + str((end_puzzle2 - start_puzzle2)))
