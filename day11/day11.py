@@ -67,12 +67,7 @@ def puzzle1():
         else:
             is_changed, seatplan = applyRule2(seatplan, row_len, column_len)
             apply_rule = 1
-    res = 0
-    for row in range(len(seatplan)):
-        for column in range(len(seatplan[0])):
-            if seatplan[row][column] == '#':
-                res += 1
-    return res
+    return ''.join(seatplan).count('#')
 
 
 def applyRule1Puzzle2(seatplan, row_len, column_len):
@@ -154,12 +149,7 @@ def puzzle2():
         else:
             is_changed, seatplan = applyRule2Puzzle2(seatplan, row_len, column_len)
             apply_rule = 1
-    res = 0
-    for row in range(len(seatplan)):
-        for column in range(len(seatplan[0])):
-            if seatplan[row][column] == '#':
-                res += 1
-    return res
+    return ''.join(seatplan).count('#')
 
 
 if __name__ == '__main__':
