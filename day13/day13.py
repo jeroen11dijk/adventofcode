@@ -1,6 +1,7 @@
 import time
 from functools import reduce
 
+
 def puzzle1():
     res = float("inf")
     bus_id = 0
@@ -39,6 +40,7 @@ def mul_inv(a, b):
         x0, x1 = x1 - q * x0, x0
     if x1 < 0: x1 += b0
     return x1
+
 
 def puzzle2():
     _, busses = open('day13.txt').read().split("\n")
