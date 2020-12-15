@@ -1,28 +1,23 @@
 import time
+from collections import defaultdict
 
 
 def puzzle(target):
     starting_numbers = list(map(int, open('day15.txt').read().split(",")))
-    occurences = {value: [i + 1] for i, value in enumerate(starting_numbers)}
+    occurences = defaultdict(list, {value: [i + 1] for i, value in enumerate(starting_numbers)})
     last_number = starting_numbers[-1]
     len_starting_numbers = len(starting_numbers)
     for i in range(len_starting_numbers + 1, target + 1):
         if last_number not in occurences or i == len(starting_numbers) + 1:
             last_number = 0
-            if last_number in occurences:
-                occurences[last_number].append(i)
-            else:
-                occurences[last_number] = [i]
+            occurences[last_number].append(i)
         else:
             last_number_occurences = occurences[last_number]
             if len(last_number_occurences) == 1:
                 last_number = i - 1 - occurences[last_number][0]
             else:
                 last_number = last_number_occurences[-1] - last_number_occurences[-2]
-            if last_number in occurences:
-                occurences[last_number].append(i)
-            else:
-                occurences[last_number] = [i]
+            occurences[last_number].append(i)
     return last_number
 
 
