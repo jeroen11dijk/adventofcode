@@ -8,16 +8,11 @@ def puzzle(target):
     last_number = starting_numbers[-1]
     len_starting_numbers = len(starting_numbers)
     for i in range(len_starting_numbers + 1, target + 1):
-        if last_number not in occurences or i == len(starting_numbers) + 1:
-            last_number = 0
-            occurences[last_number].append(i)
+        if len(occurences[last_number]) > 1:
+            last_number = occurences[last_number][-1] - occurences[last_number][-2]
         else:
-            last_number_occurences = occurences[last_number]
-            if len(last_number_occurences) == 1:
-                last_number = i - 1 - occurences[last_number][0]
-            else:
-                last_number = last_number_occurences[-1] - last_number_occurences[-2]
-            occurences[last_number].append(i)
+            last_number = 0
+        occurences[last_number].append(i)
     return last_number
 
 
