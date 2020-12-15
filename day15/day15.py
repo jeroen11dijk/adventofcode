@@ -2,14 +2,12 @@ import time
 
 
 def puzzle(target):
-    occurences = {}
     starting_numbers = list(map(int, open('day15.txt').read().split(",")))
+    occurences = {value: [i + 1] for i, value in enumerate(starting_numbers)}
     last_number = starting_numbers[-1]
     len_starting_numbers = len(starting_numbers)
-    for i in range(1, target + 1):
-        if i <= len_starting_numbers:
-            occurences[starting_numbers[i - 1]] = [i]
-        elif last_number not in occurences or i == len(starting_numbers) + 1:
+    for i in range(len_starting_numbers + 1, target + 1):
+        if last_number not in occurences or i == len(starting_numbers) + 1:
             last_number = 0
             if last_number in occurences:
                 occurences[last_number].append(i)
