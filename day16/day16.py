@@ -64,11 +64,7 @@ def puzzle2():
     my_ticket = list(map(int, parts[1].split("\n")[1].split(",")))
     interested_in = ["departure location", "departure station", "departure platform", "departure track",
                      "departure date", "departure time"]
-    res = []
-    for index in range(len(my_ticket)):
-        if possibilities[index][0] in interested_in:
-            res.append(my_ticket[index])
-    return math.prod(res)
+    return math.prod([my_ticket[index] if possibilities[index][0] in interested_in else 1 for index in range(len(my_ticket))])
 
 
 if __name__ == '__main__':
