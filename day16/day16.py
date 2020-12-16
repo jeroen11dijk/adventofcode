@@ -1,26 +1,17 @@
+import math
 import time
 from collections import defaultdict
-from copy import copy
-import math
+
 
 def puzzle1():
     valid = set()
-    res = 0
-    for line in open('ids.txt'):
-        if line.split() == "your ticket:":
-            break
-        _, ranges = line.split(': ')
-        first, second = ranges.split(' or ')
-        for i in range(int(first.split("-")[0]), int(first.split("-")[1]) + 1):
-            valid.add(i)
-        for i in range(int(second.split("-")[0]), int(second.split("-")[1]) + 1):
-            valid.add(i)
-    for line in open("day16.txt"):
-        line = list(map(int, line.split(",")))
-        for i in line:
-            if i not in valid:
-                res += i
-    return res
+    parts = open("day16.txt").read().split("\n\n")
+    for line in parts[0].split("\n"):
+        for span in line.split(': ')[1].split(' or '):
+            for i in range(int(span.split("-")[0]), int(span.split("-")[1]) + 1):
+                valid.add(i)
+    return sum([sum([i if i not in valid else 0 for i in list(map(int, line.split(",")))]) for line in parts[2].split("\n")[1:]])
+
 
 def invalid_lines():
     valid = set()
@@ -34,19 +25,18 @@ def invalid_lines():
             valid.add(i)
         for i in range(int(second.split("-")[0]), int(second.split("-")[1]) + 1):
             valid.add(i)
-    for line_number, line in enumerate(open("day16.txt")):
+    for line_number, line in enumerate(open("tickets.txt")):
         line = list(map(int, line.split(",")))
         for i in line:
             if i not in valid:
                 res.append(line)
     return res
 
+
 def puzzle2():
     valid = {}
     skip = invalid_lines()
     for line in open('ids.txt'):
-        if line.split() == "your ticket:":
-            break
         field, ranges = line.split(': ')
         first, second = ranges.split(' or ')
         valid[field] = set()
@@ -55,9 +45,9 @@ def puzzle2():
         for i in range(int(second.split("-")[0]), int(second.split("-")[1]) + 1):
             valid[field].add(i)
     lijsten = []
-    for i in range(len(open("day16.txt").readlines()[0].split(','))):
+    for i in range(len(open("tickets.txt").readlines()[0].split(','))):
         lijsten.append(set())
-    for line in open("day16.txt"):
+    for line in open("tickets.txt"):
         line = list(map(int, line.split(",")))
         if line not in skip:
             for i, value in enumerate(line):
@@ -78,9 +68,9 @@ def puzzle2():
                         possibilities[key].remove(value)
             if len(possibilities[key]) == 1:
                 assigned.add(possibilities[key][0])
-    print(assigned)
-    my_ticket = list(map(int, "191,61,149,157,79,197,67,139,59,71,163,53,73,137,167,173,193,151,181,179".split(",")))
-    interested_in = ["departure location", "departure station", "departure platform", "departure track", "departure date", "departure time"]
+    my_ticket = [191, 61, 149, 157, 79, 197, 67, 139, 59, 71, 163, 53, 73, 137, 167, 173, 193, 151, 181, 179]
+    interested_in = ["departure location", "departure station", "departure platform", "departure track",
+                     "departure date", "departure time"]
     res = []
     for index in range(len(my_ticket)):
         if possibilities[index][0] in interested_in:
