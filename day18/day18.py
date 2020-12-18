@@ -1,8 +1,9 @@
+import math
+import re
 import time
-import parser
 
 
-def solve(expression):
+def solve1(expression):
     res = 0
     add = True
     in_bracket = False
@@ -14,7 +15,7 @@ def solve(expression):
                 open -= x.count(")")
                 if open == 0:
                     bracket.append(x.replace(")", "", 1))
-                    res = res + solve(bracket) if add else res * solve(bracket)
+                    res = res + solve1(bracket) if add else res * solve1(bracket)
                     in_bracket = False
                     bracket = []
                 else:
@@ -39,12 +40,29 @@ def solve(expression):
 def puzzle1():
     res = 0
     for line in open("day18.txt"):
-        res += solve(line.split())
+        res += solve1(line.split())
     return res
 
 
+class Num(int):
+    def __mul__(self, b):
+        return Num(int(self) + b)
+
+    def __add__(self, b):
+        return Num(int(self) + b)
+
+    def __sub__(self, b):
+        return Num(int(self) * b)
+
+
 def puzzle2():
-    return 0
+    res = 0
+    for line in open("day18.txt"):
+        line = re.sub(r"(\d+)", r"Num(\1)", line)
+        line = line.replace("*", "-")
+        line = line.replace("+", "*")
+        res += eval(line, {}, {"Num": Num})
+    return res
 
 
 if __name__ == '__main__':
