@@ -1,19 +1,26 @@
 import time
 import parser
 
+
 def solve(expression):
     res = 0
     add = True
     in_bracket = False
     bracket = []
+    open = 0
     for x in expression:
         if in_bracket:
             if ")" in x:
-                bracket.append(x.replace(")", "", 1))
-                res = res + solve(bracket) if add else res * solve(bracket)
-                in_bracket = False
-                bracket = []
+                open -= x.count(")")
+                if open == 0:
+                    bracket.append(x.replace(")", "", 1))
+                    res = res + solve(bracket) if add else res * solve(bracket)
+                    in_bracket = False
+                    bracket = []
+                else:
+                    bracket.append(x)
             else:
+                open += x.count("(")
                 bracket.append(x)
         else:
             if x == "+":
@@ -22,6 +29,7 @@ def solve(expression):
                 add = False
             elif "(" in x:
                 in_bracket = True
+                open = x.count("(")
                 bracket.append(x.replace("(", "", 1))
             else:
                 res = res + int(x) if add else res * int(x)
