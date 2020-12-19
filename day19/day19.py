@@ -1,5 +1,8 @@
 import time
 
+from lark.exceptions import LarkError
+from lark.lark import Lark
+
 cache = {}
 
 
@@ -67,8 +70,20 @@ def puzzle1():
 
 
 def puzzle2():
-    res = 0
-    return res
+    rules, lines = open("day19.txt").read().split('\n\n')
+    rules = rules.replace('8: 42', '8: 42 | 42 8')
+    rules = rules.replace('11: 42 31', '11: 42 31 | 42 11 31')
+    rules = rules.translate(str.maketrans('0123456789', 'abcdefghij'))
+    parser = Lark(rules, start='a')
+
+    total = 0
+    for line in lines.splitlines():
+        try:
+            parser.parse(line)
+            total += 1
+        except LarkError:
+            pass
+    return total
 
 
 if __name__ == '__main__':
