@@ -1,16 +1,12 @@
 import time
 
-from lark.exceptions import LarkError
-from lark.lark import Lark
-
 
 def puzzle1():
     players = open("day22.txt").read().split('\n\n')
     player1 = list(map(int, players[0].split("\n")[1:]))
     player2 = list(map(int, players[1].split("\n")[1:]))
     while len(player1) > 0 and len(player2) > 0:
-        card1 = player1.pop(0)
-        card2 = player2.pop(0)
+        card1, card2 = player1.pop(0), player2.pop(0)
         if card1 > card2:
             player1.append(card1)
             player1.append(card2)
@@ -30,8 +26,7 @@ def play_game(player1, player2):
         if card_state in seen:
             return True, sum([(i + 1) * val for i, val in enumerate(reversed(player1))])
         seen.add(card_state)
-        card1 = player1.pop(0)
-        card2 = player2.pop(0)
+        card1, card2 = player1.pop(0), player2.pop(0)
         if card1 <= len(player1) and card2 <= len(player2):
             winner, _ = play_game(player1[:card1], player2[:card2])
             if winner:
