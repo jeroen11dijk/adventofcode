@@ -2,12 +2,21 @@ import time
 
 
 def puzzle1():
-    return sum([len(set([letter for letter in line.replace('\n', '')])) for line in open('day6.txt').read().split("\n\n")])
+    with open('day1.txt') as f:
+        data = f.readlines()[0]
+        return data.count('(') - data.count(')')
 
 
 def puzzle2():
-    return sum([sum([all([question in line for line in line.split('\n')]) for question in line.split('\n')[0]]) for line in open('day6.txt').read().split("\n\n")])
-
+    floor = 0
+    with open('day1.txt') as f:
+        for i, move in enumerate(f.readlines()[0]):
+            if move == '(':
+                floor += 1
+            elif move == ')':
+                floor -= 1
+            if floor == -1:
+                return i+1
 
 if __name__ == '__main__':
     start_puzzle1 = int(round(time.time() * 1000))
