@@ -5,19 +5,16 @@ def puzzle1():
     res = 0
     values = [int(i) for i in open('day1.txt').read().split("\n")]
     for i in range(len(values)):
-        if i != 0 and values[i] > values[i-1]:
+        if i != 0 and values[i] > values[i - 1]:
             res += 1
     return res
-
 
 
 def puzzle2():
     res = 0
     values = [int(i) for i in open('day1.txt').read().split("\n")]
     for i in range(2, len(values) - 1):
-        print(sum([values[i], values[i+1], values[i-1]]))
-        print(sum([values[i], values[i-1], values[i-2]]))
-        if sum([values[i], values[i+1], values[i-1]]) > sum([values[i], values[i-1], values[i-2]]):
+        if sum([values[i], values[i + 1], values[i - 1]]) > sum([values[i], values[i - 1], values[i - 2]]):
             res += 1
     return res
 
