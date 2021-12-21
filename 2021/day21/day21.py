@@ -1,4 +1,5 @@
 import time
+from functools import lru_cache
 
 
 def puzzle1():
@@ -22,7 +23,7 @@ def puzzle1():
 
 DIRAC = {3: 1, 4: 3, 5: 6, 6: 7, 7: 6, 8: 3, 9: 1}
 
-
+@lru_cache(maxsize=None)
 def throw_die(one, two, p1):
     one_wins, two_wins = 0, 0
     for roll, weight in DIRAC.items():
