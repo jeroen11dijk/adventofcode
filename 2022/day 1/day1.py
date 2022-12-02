@@ -2,7 +2,7 @@ import time
 from collections import defaultdict
 
 
-def puzzle1():
+def get_calories():
     res, person = defaultdict(int), 0
     values = [None if i == '' else int(i) for i in open('day1.txt').read().split("\n")]
     for i in values:
@@ -10,18 +10,15 @@ def puzzle1():
             res[person] += i
         else:
             person += 1
-    return max(res.values())
+    return res
+
+
+def puzzle1():
+    return max(get_calories().values())
 
 
 def puzzle2():
-    res, person = defaultdict(int), 0
-    values = [None if i == '' else int(i) for i in open('day1.txt').read().split("\n")]
-    for i in values:
-        if i is not None:
-            res[person] += i
-        else:
-            person += 1
-    return sum(sorted(list(res.values()))[-3:])
+    return sum(sorted(list(get_calories().values()))[-3:])
 
 
 if __name__ == '__main__':
