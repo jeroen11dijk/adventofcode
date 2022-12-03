@@ -2,6 +2,7 @@ import time
 
 lookup = {"A": 1, "B": 2, "C": 3, "X": 1, "Y": 2, "Z": 3}
 
+
 def get_score(them, me):
     res = me
     if me == them:
@@ -9,6 +10,7 @@ def get_score(them, me):
     if me == (them % 3) + 1:
         res += 6
     return res
+
 
 def puzzle1():
     res = 0
@@ -28,6 +30,7 @@ def puzzle2():
         if result == 3:
             res += get_score(them, (them % 3) + 1)
     return res
+
 
 if __name__ == '__main__':
     start_puzzle1 = int(round(time.time() * 1000))
