@@ -35,12 +35,13 @@ def generate_graph(all_starts=False):
     return graph, start, goal
 
 
-def dijkstra(graph, start, goal):
+def dijkstra(graph, starts, goal):
     distances = {v: float('inf') for v in graph.keys()}
-    distances[start] = 0
     visited = set()
     Q = PriorityQueue()
-    Q.put((0, start))
+    for start in starts:
+        distances[start] = 0
+        Q.put((0, start))
     while not Q.empty():
         dist, current = Q.get()
         visited.add(current)
@@ -54,12 +55,12 @@ def dijkstra(graph, start, goal):
 
 def puzzle1():
     graph, start, goal = generate_graph()
-    return dijkstra(graph, start, goal)
+    return dijkstra(graph, [start], goal)
 
 
 def puzzle2():
     graph, starts, goal = generate_graph(True)
-    return min(dijkstra(graph, start, goal) for start in starts)
+    return dijkstra(graph, starts, goal)
 
 
 if __name__ == '__main__':
