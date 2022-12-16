@@ -1,7 +1,6 @@
 import re
 import time
 from collections import deque, defaultdict
-from copy import deepcopy
 from dataclasses import dataclass, field
 from queue import PriorityQueue
 
@@ -36,6 +35,7 @@ class queue_entry:
     def __repr__(self):
         return str([self.node, self.total_pressure, self.time, self.open_valves])
 
+
 @dataclass
 class queue_entry2:
     node: tuple = ("AA", "AA")
@@ -51,6 +51,7 @@ class queue_entry2:
 
     def __hash__(self):
         return hash((self.node, self.total_pressure, self.time))
+
 
 def read_input():
     graph = {}
@@ -105,21 +106,27 @@ def puzzle2():
                 pressure_gain2 = (26 - current.time[1] - distances[current.node[1]][node]) * flows[node]
                 new_set = set(current.open_valves)
                 new_set.add(node)
-                if current.time[0] + distances[current.node[0]][node] + 1 <= 26 and current.total_pressure + pressure_gain > best[tuple(new_set)]:
+                if current.time[0] + distances[current.node[0]][
+                    node] + 1 <= 26 and current.total_pressure + pressure_gain > best[tuple(new_set)]:
                     best[tuple(new_set)] = current.total_pressure + pressure_gain
                     new_time = (current.time[0] + distances[current.node[0]][node] + 1, current.time[1])
                     reverse_time = (current.time[1], current.time[0] + distances[current.node[0]][node] + 1)
-                    new_entry = queue_entry2((node, current.node[1]), current.total_pressure + pressure_gain, new_time, new_set)
-                    reverse_entry = queue_entry2((current.node[1], node), current.total_pressure + pressure_gain, reverse_time, new_set)
+                    new_entry = queue_entry2((node, current.node[1]), current.total_pressure + pressure_gain, new_time,
+                                             new_set)
+                    reverse_entry = queue_entry2((current.node[1], node), current.total_pressure + pressure_gain,
+                                                 reverse_time, new_set)
                     if new_entry not in seen and reverse_entry not in seen:
                         q.append(new_entry)
                         seen.add(new_entry)
-                if current.time[1] + distances[current.node[1]][node] + 1 <= 26 and current.total_pressure + pressure_gain2 > best[tuple(new_set)]:
+                if current.time[1] + distances[current.node[1]][
+                    node] + 1 <= 26 and current.total_pressure + pressure_gain2 > best[tuple(new_set)]:
                     best[tuple(new_set)] = current.total_pressure + pressure_gain
                     new_time = (current.time[0], current.time[1] + distances[current.node[1]][node] + 1)
                     reverse_time = (current.time[1] + distances[current.node[1]][node] + 1, current.time[0])
-                    new_entry = queue_entry2((current.node[0], node), current.total_pressure + pressure_gain2, new_time, new_set)
-                    reverse_entry = queue_entry2((node, current.node[0]), current.total_pressure + pressure_gain2, reverse_time, new_set)
+                    new_entry = queue_entry2((current.node[0], node), current.total_pressure + pressure_gain2, new_time,
+                                             new_set)
+                    reverse_entry = queue_entry2((node, current.node[0]), current.total_pressure + pressure_gain2,
+                                                 reverse_time, new_set)
                     if new_entry not in seen and reverse_entry not in seen:
                         q.append(new_entry)
                         seen.add(new_entry)
