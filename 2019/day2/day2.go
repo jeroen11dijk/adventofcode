@@ -69,7 +69,7 @@ func part2(filepath string) int {
 
 func main() {
 	_, filename, _, _ := runtime.Caller(0)
-	filepath := path.Join(path.Dir(filename), "day6.txt")
+	filepath := path.Join(path.Dir(filename), "day2.txt")
 	fmt.Println(part1(filepath))
 	fmt.Println(part2(filepath))
 }
