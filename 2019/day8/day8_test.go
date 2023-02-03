@@ -27,3 +27,11 @@ func Test_part1(t *testing.T) {
 	numbers := convertStringSliceToIntSlice(lines)
 	assert.Equal(t, 1596, part1(numbers, 150), "The two words should be the same.")
 }
+
+func Test_part1RX(t *testing.T) {
+	_, filename, _, _ := runtime.Caller(0)
+	filepath := path.Join(path.Dir(filename), "day8.txt")
+	lines := readFile(filepath)
+	numbers := convertStringSliceToIntSlice(lines)
+	assert.Equal(t, 1596, part1RX(numbers, 150), "The two words should be the same.")
+}
