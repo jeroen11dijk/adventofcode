@@ -29,8 +29,7 @@ func convertStringSliceToIntSlice(lines []string) []int {
 	return numbers
 }
 
-func part1(numbers []int) int {
-	length := 150
+func part1(numbers []int, length int) int {
 	res := 0
 	zerores := length
 	for i := 0; i < len(numbers); i += length {
@@ -54,9 +53,8 @@ func part1(numbers []int) int {
 	return res
 }
 
-func part2(numbers []int) {
+func part2(numbers []int, length int) {
 	screen := make([][]int, 0)
-	length := 150
 	for i := 0; i < len(numbers); i += length {
 		screen = append(screen, numbers[i:i+length])
 	}
@@ -83,6 +81,6 @@ func main() {
 	filepath := path.Join(path.Dir(filename), "day8.txt")
 	lines := readFile(filepath)
 	numbers := convertStringSliceToIntSlice(lines)
-	fmt.Println(part1(numbers))
-	part2(numbers)
+	fmt.Println(part1(numbers, 150))
+	part2(numbers, 150)
 }
