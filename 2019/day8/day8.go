@@ -7,6 +7,8 @@ import (
 	"path"
 	"runtime"
 	"strconv"
+
+	"github.com/reactivex/rxgo/v2"
 )
 
 func readFile(filepath string) []string {
@@ -31,7 +33,7 @@ func convertStringSliceToIntSlice(lines []string) []int {
 
 func part1(numbers []int, length int) int {
 	res := 0
-	zerores := length
+	zeroRes := length
 	for i := 0; i < len(numbers); i += length {
 		slice := numbers[i : i+length]
 		zeros, ones, twos := 0, 0, 0
@@ -45,8 +47,8 @@ func part1(numbers []int, length int) int {
 				twos += 1
 			}
 		}
-		if zeros < zerores {
-			zerores = zeros
+		if zeros < zeroRes {
+			zeroRes = zeros
 			res = ones * twos
 		}
 	}
@@ -76,11 +78,47 @@ func part2(numbers []int, length int) {
 	}
 }
 
+func processSlice(slice []int, res int, zerores int) (int, int) {
+	zeros, ones, twos := 0, 0, 0
+	for _, num := range slice {
+		switch num {
+		case 0:
+			zeros += 1
+		case 1:
+			ones += 1
+		case 2:
+			twos += 1
+		}
+	}
+	if zeros < zerores {
+		zerores = zeros
+		res = ones * twos
+	}
+	return res, zerores
+}
+
+func part1RX(numbers []int, length int) int {
+	res := 0
+	zerores := length
+	<-rxgo.Just(numbers)().BufferWithCount(150).DoOnNext(func(i interface{}) {
+		bufferedNumbers := i.([]interface{})
+		wtf := make([]int, len(bufferedNumbers))
+		for i, n := range bufferedNumbers {
+			wtf[i] = n.(int)
+		}
+		res, zerores = processSlice(wtf, res, zerores)
+	})
+	return res
+}
+
 func main() {
 	_, filename, _, _ := runtime.Caller(0)
 	filepath := path.Join(path.Dir(filename), "day8.txt")
 	lines := readFile(filepath)
 	numbers := convertStringSliceToIntSlice(lines)
-	fmt.Println(part1(numbers, 150))
-	part2(numbers, 150)
+	// fmt.Println(part1(numbers, 150))
+	fmt.Println(part1RX(numbers, 150))
+
+	// part2(numbers, 150)
+
 }
