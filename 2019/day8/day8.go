@@ -9,28 +9,27 @@ import (
 	"strconv"
 )
 
-func IntToSlice(n int64, sequence []int64) []int64 {
-	if n != 0 {
-		i := n % 10
-		sequence = append([]int64{i}, sequence...)
-		return IntToSlice(n/10, sequence)
-	}
-	return sequence
-}
-
-func part1(filepath string) int {
+func readFile(filepath string) []string {
 	file, _ := os.Open(filepath)
 	scanner := bufio.NewScanner(file)
 	var lines []string
 	for scanner.Scan() {
 		lines = append(lines, scanner.Text())
 	}
+	return lines
+}
+
+func convertStringSliceToIntSlice(lines []string) []int {
 	chars := []rune(lines[0])
 	numbers := make([]int, 0)
-	for i := 0; i < len(chars); i++ {
-		number, _ := strconv.Atoi(string(chars[i]))
+	for _, c := range chars {
+		number, _ := strconv.Atoi(string(c))
 		numbers = append(numbers, number)
 	}
+	return numbers
+}
+
+func part1(numbers []int) int {
 	length := 150
 	res := 0
 	zerores := length
@@ -38,13 +37,12 @@ func part1(filepath string) int {
 		slice := numbers[i : i+length]
 		zeros, ones, twos := 0, 0, 0
 		for _, num := range slice {
-			if num == 0 {
+			switch num {
+			case 0:
 				zeros += 1
-			}
-			if num == 1 {
+			case 1:
 				ones += 1
-			}
-			if num == 2 {
+			case 2:
 				twos += 1
 			}
 		}
@@ -56,19 +54,7 @@ func part1(filepath string) int {
 	return res
 }
 
-func part2(filepath string) {
-	file, _ := os.Open(filepath)
-	scanner := bufio.NewScanner(file)
-	var lines []string
-	for scanner.Scan() {
-		lines = append(lines, scanner.Text())
-	}
-	chars := []rune(lines[0])
-	numbers := make([]int, 0)
-	for i := 0; i < len(chars); i++ {
-		number, _ := strconv.Atoi(string(chars[i]))
-		numbers = append(numbers, number)
-	}
+func part2(numbers []int) {
 	screen := make([][]int, 0)
 	length := 150
 	for i := 0; i < len(numbers); i += length {
@@ -95,6 +81,8 @@ func part2(filepath string) {
 func main() {
 	_, filename, _, _ := runtime.Caller(0)
 	filepath := path.Join(path.Dir(filename), "day8.txt")
-	fmt.Println(part1(filepath))
-	part2(filepath)
+	lines := readFile(filepath)
+	numbers := convertStringSliceToIntSlice(lines)
+	fmt.Println(part1(numbers))
+	part2(numbers)
 }
