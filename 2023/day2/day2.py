@@ -1,59 +1,38 @@
 import time
+import re
+
+
+def check_games(games):
+    min_red, min_green, min_blue = 0, 0, 0
+    for game in games.split(";"):
+        for color in game.split(","):
+            number = int(re.findall(r"\d+", color)[0])
+            if "red" in color and number > min_red:
+                min_red = number
+            if "green" in color and number > min_green:
+                min_green = number
+            if "blue" in color and number > min_blue:
+                min_blue = number
+    return min_red, min_green, min_blue
 
 
 def puzzle1():
     res = 0
-    for line in open("day2.txt").splitlines():
-        first, second = "0", "0"
-        for i in line:
-            if i.isdigit():
-                first = i
-                break
-        for i in reversed(line):
-            if i.isdigit():
-                second = i
-                break
-        res += int(first + second)
+    for line in open("day2.txt").readlines():
+        game_info, games = line.split(":")
+        game_id = int(re.findall(r"\d+", game_info)[0])
+        min_red, min_green, min_blue = check_games(games)
+        if min_red <= 12 and min_green <= 13 and min_blue <= 14:
+            res += game_id
     return res
 
 
 def puzzle2():
     res = 0
-    digits = {
-        "one": "1",
-        "two": "2",
-        "three": "3",
-        "four": "4",
-        "five": "5",
-        "six": "6",
-        "seven": "7",
-        "eight": "8",
-        "nine": "9",
-    }
-    for line in open("day2.txt").read().split("\n"):
-        first, second = "0", "0"
-        first_index, second_index = len(line) - 1, 0
-        for i, val in enumerate(line):
-            if val.isdigit():
-                first = val
-                first_index = i
-                break
-        for i, val in enumerate(reversed(line)):
-            if val.isdigit():
-                second = val
-                second_index = len(line) - 1 - i
-                break
-        for string_digit, digit in digits.items():
-            index = line.find(string_digit)
-            if index != -1 and index < first_index:
-                first = digit
-                first_index = index
-            index = line.rfind(string_digit)
-            if index > second_index:
-                second = digit
-                second_index = index
-        print(line, first, second)
-        res += int(first + second)
+    for line in open("day2.txt").readlines():
+        _, games = line.split(":")
+        min_red, min_green, min_blue = check_games(games)
+        res += min_red * min_green * min_blue
     return res
 
 
