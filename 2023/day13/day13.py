@@ -1,7 +1,5 @@
 import time
 import os
-from math import gcd
-from itertools import combinations
 
 os.chdir(os.path.dirname(os.path.abspath(__file__)))
 
