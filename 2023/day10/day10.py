@@ -68,17 +68,25 @@ def puzzle2():
         seen.update(curr)
         curr = [variable_name for location in curr for variable_name in get_neighbours(grid, location) if variable_name not in seen]
         if curr[0] == curr[1]:
+            seen.update(curr)
             break
     res = 0
     for i, line in enumerate(open("day10.txt").readlines()):
         thomas_variable = 0
+        last_symbol = ""
         max_j = max(j_2 if i_2 == i else 0 for (i_2, j_2) in seen)
         for j, val in enumerate(line.strip()):
             if j == max_j:
                 break
-            if (i, j) in seen:
+            if (i, j) in seen and grid[(i,j)] == "|":
                 thomas_variable += 1
-            if val == "." and thomas_variable > 0 and thomas_variable % 2 == 1:
+            if (i, j) in seen and (grid[(i,j)] == "L" or grid[(i,j)] == "F"):  
+                last_symbol = grid[(i,j)]
+            if (i, j) in seen and grid[(i,j)] == "7" and last_symbol == "L":
+                thomas_variable += 1
+            if (i, j) in seen and grid[(i,j)] == "J" and last_symbol == "F":
+                thomas_variable += 1
+            if (i, j) not in seen and thomas_variable > 0 and thomas_variable % 2 == 1:
                 print(i, j, thomas_variable)
                 res += 1
     return res
